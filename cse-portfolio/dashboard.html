@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSE Achievements</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      width: 400px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .add-btn {
+      background: #28a745;
+      margin-top: -5px;
+      margin-bottom: 15px;
+    }
+
+    .add-btn:hover {
+      background: #218838;
+    }
+
+    button.save-btn {
+      background: #007BFF;
+    }
+
+    button.save-btn:hover {
+      background: #0056b3;
+    }
+
+    .entry-group {
+      margin-bottom: 10px;
+      border: 1px solid #eee;
+      padding: 10px;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    #status {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Add Achievement</h2>
+
+    <label for="type">Type:</label>
+    <select id="type" onchange="toggleFields()">
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select>
+
+    <div id="studentFields">
+      <div class="entry-group" id="studentEntries">
+        <input type="text" class="studentId" placeholder="Student ID">
+        <input type="text" class="studentName" placeholder="Student Name">
+        <input type="text" class="batch" placeholder="Batch">
+      </div>
+      <button type="button" class="add-btn" onclick="addStudentEntry()">+ Add Another Student</button>
+    </div>
+
+    <div id="teacherFields" style="display:none;">
+      <div class="entry-group" id="teacherEntries">
+        <input type="text" class="teacherId" placeholder="Teacher ID">
+        <input type="text" class="teacherName" placeholder="Teacher Name">
+        <input type="text" class="department" placeholder="Department">
+      </div>
+      <button type="button" class="add-btn" onclick="addTeacherEntry()">+ Add Another Teacher</button>
+    </div>
+
+    <label for="achievementDetails">Achievement Details:</label>
+    <textarea id="achievementDetails" placeholder="Achievement Details"></textarea>
+    <input type="file" id="photo">
+
+    <button class="save-btn" onclick="saveAchievement()">Save Achievement</button>
+    <p id="status"></p>
+  </div>
+
+  <script type="module" src="script.js"></script>
+
+  <script>
+    function toggleFields() {
+      const type = document.getElementById('type').value;
+      document.getElementById('studentFields').style.display = type === 'student' ? 'block' : 'none';
+      document.getElementById('teacherFields').style.display = type === 'teacher' ? 'block' : 'none';
+    }
+
+    function addStudentEntry() {
+      const container = document.getElementById('studentEntries');
+      const entry = document.createElement('div');
+      entry.className = 'entry-group';
+      entry.innerHTML = `
+        <input type="text" class="studentId" placeholder="Student ID">
+        <input type="text" class="studentName" placeholder="Student Name">
+        <input type="text" class="batch" placeholder="Batch">
+      `;
+      container.appendChild(entry);
+    }
+
+    function addTeacherEntry() {
+      const container = document.getElementById('teacherEntries');
+      const entry = document.createElement('div');
+      entry.className = 'entry-group';
+      entry.innerHTML = `
+        <input type="text" class="teacherId" placeholder="Teacher ID">
+        <input type="text" class="teacherName" placeholder="Teacher Name">
+        <input type="text" class="department" placeholder="Department">
+      `;
+      container.appendChild(entry);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSE Achievements</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+      position: sticky;
+      top: 0;
+      background: #f5f5f5;
+      padding: 10px 0;
+      z-index: 100;
+    }
+    .tab {
+      padding: 10px 25px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: 0.3s;
+      border: 1px solid transparent;
+      background: #fff;
+      color: #555;
+    }
+    .tab.active {
+      background: #007BFF;
+      color: #fff;
+      border-color: #007BFF;
+    }
+
+    /* Sections */
+    .section {
+      max-width: 900px;
+      margin: auto;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .section.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Filters */
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .controls input, .controls select {
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transform: translateY(50px) scale(0.95);
+      opacity: 0;
+      transition: all 0.6s ease;
+    }
+    .card.visible {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    }
+
+    /* Rectangular Photos */
+    .card img {
+      width: 160px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      flex-shrink: 0;
+    }
+
+    /* Info Section */
+    .card .info h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #222;
+    }
+    .card .info p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    /* Achievement details */
+    .achievements {
+      margin-top: 8px;
+      padding-left: 12px;
+      border-left: 3px solid #007BFF;
+      max-height: 80px;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+    .achievements.expanded {
+      max-height: 1000px; /* expands when clicked */
+    }
+    .achievements p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #333;
+    }
+    .show-more {
+      color: #007BFF;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 5px;
+      display: inline-block;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+      .card .info {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>CSE Department Achievements</h1>
+
+  <div class="tabs">
+    <div class="tab active" data-target="studentSection">Students</div>
+    <div class="tab" data-target="teacherSection">Teachers</div>
+  </div>
+
+  <!-- Student Section -->
+  <div class="section active" id="studentSection">
+    <div class="controls">
+      <input type="text" id="studentSearch" placeholder="Search by name">
+      <select id="batchFilter">
+        <option value="">All Batches</option>
+      </select>
+    </div>
+    <div id="studentContainer"></div>
+  </div>
+
+  <!-- Teacher Section -->
+  <div class="section" id="teacherSection">
+    <div class="controls">
+      <input type="text" id="teacherSearch" placeholder="Search by name">
+    </div>
+    <div id="teacherContainer"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrxwdF4Qvw0HCI3nQEdhVUboZnRKixqoE",
+      authDomain: "bauet-cse-portfolio.firebaseapp.com",
+      projectId: "bauet-cse-portfolio",
+      storageBucket: "bauet-cse-portfolio.firebasestorage.app",
+      messagingSenderId: "273300306123",
+      appId: "1:273300306123:web:4a2084f054097b11c4434e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const studentAchievementsMap = new Map();
+    const teacherAchievementsMap = new Map();
+    const batches = new Set();
+
+    async function fetchAchievements() {
+      const studentContainer = document.getElementById('studentContainer');
+      const teacherContainer = document.getElementById('teacherContainer');
+      const batchFilter = document.getElementById('batchFilter');
+
+      // Fetch students
+      const studentSnapshot = await getDocs(collection(db, "students"));
+      studentSnapshot.forEach(doc => {
+        const data = doc.data();
+        batches.add(data.batch);
+
+        const key = data.achievementDetails;
+        if (!studentAchievementsMap.has(key)) {
+          studentAchievementsMap.set(key, { students: [], batchSet: new Set(), photoBase64: data.photoBase64 || 'https://via.placeholder.com/160x100' });
+        }
+        const entry = studentAchievementsMap.get(key);
+        entry.students.push({ name: data.name, id: data.studentId, batch: data.batch });
+        entry.batchSet.add(data.batch);
+      });
+
+      studentAchievementsMap.forEach((value, achievement) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        let studentListHTML = '';
+        value.students.forEach(s => {
+          studentListHTML += `<p>${s.name} (${s.id}) - Batch: ${s.batch}</p>`;
+        });
+        card.innerHTML = `
+          <img src="${value.photoBase64}" alt="photo">
+          <div class="info">
+            <h3>Achievement:</h3>
+            <div class="achievements">${achievement}<div>${studentListHTML}</div></div>
+          </div>
+        `;
+        value.cardElement = card;
+        studentContainer.appendChild(card);
+      });
+
+      batches.forEach(batch => {
+        const option = document.createElement('option');
+        option.value = batch;
+        option.text = batch;
+        batchFilter.appendChild(option);
+      });
+
+      // Fetch teachers
+      const teacherSnapshot = await getDocs(collection(db, "teachers"));
+      teacherSnapshot.forEach(doc => {
+        const data = doc.data();
+        const key = data.achievementDetails;
+        if (!teacherAchievementsMap.has(key)) {
+          teacherAchievementsMap.set(key, { teachers: [], photoBase64: data.photoBase64 || 'https://via.placeholder.com/160x100' });
+        }
+        const entry = teacherAchievementsMap.get(key);
+        entry.teachers.push({ name: data.name, id: data.teacherId, department: data.department });
+      });
+
+      teacherAchievementsMap.forEach((value, achievement) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        let teacherListHTML = '';
+        value.teachers.forEach(t => {
+          teacherListHTML += `<p>${t.name} (${t.id}) - Dept: ${t.department}</p>`;
+        });
+        card.innerHTML = `
+          <img src="${value.photoBase64}" alt="photo">
+          <div class="info">
+            <h3>Achievement:</h3>
+            <div class="achievements">${achievement}<div>${teacherListHTML}</div></div>
+          </div>
+        `;
+        value.cardElement = card;
+        teacherContainer.appendChild(card);
+      });
+
+      addExpandFeature();
+      observeCards();
+    }
+
+    // Expand/collapse feature only if needed
+    function addExpandFeature() {
+      document.querySelectorAll('.card .achievements').forEach(achievementsDiv => {
+        if (achievementsDiv.scrollHeight > achievementsDiv.clientHeight) {
+          const btn = document.createElement('span');
+          btn.className = 'show-more';
+          btn.textContent = "Show more";
+          achievementsDiv.parentNode.appendChild(btn);
+
+          btn.addEventListener('click', () => {
+            achievementsDiv.classList.toggle('expanded');
+            btn.textContent = achievementsDiv.classList.contains('expanded') ? "Show less" : "Show more";
+          });
+        }
+      });
+    }
+
+    // Search filter
+    function filterCards(searchInputId, map) {
+      const query = document.getElementById(searchInputId).value.toLowerCase();
+      map.forEach(item => {
+        const matchesSearch = item.teachers ? item.teachers.some(t => t.name.toLowerCase().includes(query)) 
+                                           : item.students.some(s => s.name.toLowerCase().includes(query));
+        item.cardElement.style.display = matchesSearch ? 'flex' : 'none';
+      });
+    }
+    document.getElementById('studentSearch').addEventListener('input', () => {
+      filterCards('studentSearch', studentAchievementsMap);
+    });
+    document.getElementById('teacherSearch').addEventListener('input', () => {
+      filterCards('teacherSearch', teacherAchievementsMap);
+    });
+
+    // Tab functionality
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+        document.getElementById(tab.dataset.target).classList.add('active');
+      });
+    });
+
+    // Scroll animations (Intersection Observer)
+    function observeCards() {
+      const cards = document.querySelectorAll('.card');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      cards.forEach(card => observer.observe(card));
+    }
+
+    fetchAchievements();
+  </script>
+</body>
+</html>
