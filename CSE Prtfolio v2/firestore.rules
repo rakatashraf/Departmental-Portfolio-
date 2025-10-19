@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Anyone can read (public view)
+    match /{document=**} {
+      allow read: if true;
+    }
+
+    // Authenticated admins can write student achievements
+    match /students/{docId} {
+      allow write: if request.auth != null;
+      allow read: if true;
+    }
+
+    // Authenticated admins can write teacher achievements
+    match /teachers/{docId} {
+      allow write: if request.auth != null;
+      allow read: if true;
+    }
+
+    // Authenticated admins can write alumni achievements (legacy `alumni` path kept for compatibility)
+    match /alumni/{docId} {
+      allow write: if request.auth != null;
+      allow read: if true;
+    }
+
+    
+
+    // Authenticated admins can write collaborative achievements
+    match /collaborative/{docId} {
+      allow write: if request.auth != null;
+      allow read: if true;
+    }
+    
+    // Batchwise photos
+    match /batches/{batchId}/photos/{photoId} {
+      allow read: if true; // anyone can view photos
+      allow write: if request.auth != null; // only logged-in admins can upload
+    }
+
+    // Batchwise photos (new unified collection for batch carousel)
+    match /batchPhotos/{docId} {
+      allow read: if true; // anyone can view photos
+      // Only authenticated admins can write
+      allow write: if request.auth != null;
+    }
+    
+    
+  }
+}
