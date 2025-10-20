@@ -1,0 +1,794 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAUET CSE Achievement Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="assets/bauet-logo.png" alt=" " class="nav-logo" id="nav-logo-image">
+                <div class="nav-title-block">
+                    <span class="nav-title">Bangladesh Army University of Engineering &amp; Technology</span>
+                    <span class="nav-subtitle">Department of Computer Science &amp; Engineering</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#achievements" class="nav-link">Achievements</a></li>
+                    
+                    <li class="nav-item"><a href="#alumni" class="nav-link" id="alumni-nav-link">Alumni</a></li>
+                </ul>
+                <button class="btn-admin" id="admin-login-btn">Admin Login</button>
+            </div>
+            
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-visual">
+                <div class="photo-carousel" id="photo-carousel">
+                    <div class="carousel-loading" id="carousel-loading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading achievement photos...</p>
+                    </div>
+                    <div class="carousel-container" id="carousel-container">
+                        <!-- Carousel slides will be populated here -->
+                    </div>
+                    <div class="carousel-fallback" id="carousel-fallback" style="display: none;">
+                        <div class="fallback-slide active">
+                            <div class="fallback-content">
+                                <div class="fallback-icon">🏆</div>
+                                <h3>BAUET CSE Excellence</h3>
+                                <p>Showcasing Outstanding Achievements</p>
+                            </div>
+                        </div>
+                    </div>
+
+                                
+                </div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title" aria-live="polite">
+                    <span class="phrase">Excellence in Computer Science &amp; Engineering</span>
+                    <span class="phrase phrase-hof">
+                        <span>Hall</span>
+                        <span>of&nbsp;Fame</span>
+                    </span>
+                </h1>
+                <p class="hero-description">
+                    Discover the outstanding achievements of BAUET CSE students and faculty. 
+                    From cutting-edge research to championship victories, explore our journey of innovation and success.
+                </p>
+                <a href="#achievements" class="btn btn-primary hero-cta">Explore Achievements</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <!-- ========================================
+         BATCHWISE PHOTOS SECTION
+         With Inline Admin Controls
+         ======================================== -->
+
+    <section id="batchwise-photos" class="section section--light">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2 class="section-title">📸 Batch Photos</h2>
+                <p class="section-subtitle">Browse through our department batches</p>
+            </div>
+            
+            <!-- Admin Upload Button (visible only to admins) -->
+            <div class="batch-admin-controls" style="margin-bottom: 2rem; text-align: center;">
+                <button id="batch-upload-btn" 
+                        class="btn btn--primary" 
+                        style="display: none;">
+                    ➕ Upload Batch Photo
+                </button>
+            </div>
+            
+            <!-- Batch Photos Carousel with Horizontal Scrolling -->
+            <div class="batches-carousel-wrapper">
+                <!-- Scroll Left Button -->
+                <button id="batch-scroll-left" 
+                        class="batch-scroll-btn batch-scroll-btn--left" 
+                        aria-label="Scroll left">
+                    ‹
+                </button>
+                
+                <!-- Carousel Container -->
+                <div id="batches-carousel" class="batches-carousel">
+                    <div id="batches-scroll-container" class="batches-scroll-container">
+                        <!-- Batch cards with inline edit/delete buttons will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <!-- Scroll Right Button -->
+                <button id="batch-scroll-right" 
+                        class="batch-scroll-btn batch-scroll-btn--right" 
+                        aria-label="Scroll right">
+                    ›
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About BAUET CSE</h2>
+                    <p class="about-description">
+                        The Computer Science &amp; Engineering department at Bangladesh Army University of Engineering &amp; Technology (BAUET) 
+                        is committed to excellence in education, research, and innovation. Our students and faculty consistently 
+                        achieve remarkable milestones across various domains.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="student-achievements-count">0</span>
+                            <span class="stat-label">Student Achievements</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="teacher-achievements-count">0</span>
+                            <span class="stat-label">Faculty Recognitions</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="collaborative-achievements-count">0</span>
+                            <span class="stat-label">Collaborative Projects</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="about-image-placeholder">
+                        <div class="placeholder-icon">🏆</div>
+                        <p>Excellence in Action</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="achievements">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Achievements</h2>
+                <p class="section-subtitle">Celebrating excellence across academics, sports, arts, and innovation</p>
+            </div>
+            
+            <!-- Enhanced Admin Controls -->
+            <div class="admin-controls" id="admin-controls" style="display: none;">
+                <div class="admin-header">
+                    <h3>Admin Panel</h3>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" id="add-achievement-btn">
+                            <span class="btn-icon">+</span> Add Achievement
+                        </button>
+                            <button class="btn btn-outline" id="logout-btn">Logout</button>
+
+                            
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Admin Achievement Management Section -->
+            <div class="admin-section" id="admin-management" style="display: none;">
+                <div class="section-header">
+                    <h2>Manage Achievements</h2>
+                    <button class="btn btn-primary" onclick="openAddAchievementModal()">
+                        <i class="icon-plus"></i> Add New Achievement
+                    </button>
+                </div>
+                
+                <div class="achievements-admin-grid" id="admin-achievements-grid">
+                    <!-- Admin achievement cards will be populated here -->
+                </div>
+                
+                
+            </div>
+            
+            <!-- Filters -->
+            <div class="filters">
+                <div class="search-filters" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;align-items:center;">
+                    <input type="search" id="achievement-search" class="form-control" placeholder="Search by title or participant name">
+                    <input type="search" id="batch-filter" class="form-control" placeholder="Filter by batch (students only)" style="display:none; width:180px;">
+                </div>
+                <div class="filter-group">
+                    <h3 class="filter-title">Type</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-type="all">All</button>
+                        <button class="filter-btn" data-type="students">Students</button>
+                        <button class="filter-btn" data-type="teachers">Teachers</button>
+                        <button class="filter-btn" data-type="collaborative">Collaborative</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group" id="category-filters" style="display: none;">
+                    <h3 class="filter-title">Category</h3>
+                    <div class="filter-buttons">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="Academics">Academics</button>
+                        <button class="category-btn" data-category="Sports">Sports</button>
+                        <button class="category-btn" data-category="Arts">Arts</button>
+                        <button class="category-btn" data-category="Technology">Technology</button>
+                        <button class="category-btn" data-category="Leadership">Leadership</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading achievements...</p>
+            </div>
+            
+            <!-- Achievements Grid -->
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievement cards will be populated here -->
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Left Side - Social Links -->
+                <div class="footer-section footer-social">
+                    <h3 class="footer-title">Get in Touch</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61559655030330" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/bauet/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=head_cse@bauet.ac.bd" target="_blank" rel="noopener" class="social-link" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side - Development Team -->
+                <div class="footer-section footer-team">
+                    <h3 class="footer-title">Development Team</h3>
+                    <div class="developer-cards">
+                        <!-- Developer 1: Fullstack Developer -->
+                        <div class="developer-card">
+                            <div class="developer-photo">
+                                <img src="Rakat Bin Ashraf.jpeg" alt="Rakat Bin Ashraf">
+                            </div>
+                            <div class="developer-info">
+                                <h4 class="developer-name">Rakat Bin Ashraf</h4>
+                                <p class="developer-role">Fullstack Developer</p>
+                                <div class="developer-contacts">
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=rakat.ashraf.holocast@gmail.com" class="contact-icon" aria-label="Email Rakat" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    <a href="https://wa.me/8801856066755" target="_blank" rel="noopener" class="contact-icon" aria-label="WhatsApp Ahmed">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                    <a href="https://linkedin.com/in/rakatashraf" target="_blank" rel="noopener" class="contact-icon" aria-label="Rakat's LinkedIn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Developer 2: Database Administrator -->
+                        <div class="developer-card">
+                            <div class="developer-photo">
+                                <img src="Tamim Ahmed Fardin.jpg" alt="Tamim Ahmed Fardin">
+                            </div>
+                            <div class="developer-info">
+                                <h4 class="developer-name">Tamim Ahmed Fardin</h4>
+                                <p class="developer-role">Database Administrator</p>
+                                <div class="developer-contacts">
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=fardinjahan@gmail.com" class="contact-icon" aria-label="Email Mubtasim" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    <a href="https://wa.me/8801947621448" target="_blank" rel="noopener" class="contact-icon" aria-label="WhatsApp Fatima">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/fardin-jahan-49a50438b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener" class="contact-icon" aria-label="Tamim's Linkedin">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Developer 3: UI/UX Designer -->
+                        <div class="developer-card">
+                            <div class="developer-photo">
+                                <img src="Ahsanul Haque Zim.jpeg" alt="Ahsanul Haque Zim">
+                            </div>
+                            <div class="developer-info">
+                                <h4 class="developer-name">Ahsanul Haque Zim</h4>
+                                <p class="developer-role">UI/UX Designer</p>
+                                <div class="developer-contacts">
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ahsanul.zim@gmail.com" class="contact-icon" aria-label="Email Ahsanul" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    <a href="https://wa.me/8801706330749" target="_blank" rel="noopener" class="contact-icon" aria-label="WhatsApp Mohammad">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/ahsanul-haque-5317a9337?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener" class="contact-icon" aria-label="Zim's LinkedIn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Developer 4: Researcher -->
+                        <div class="developer-card">
+                            <div class="developer-photo">
+                                <img src="Mubtasim Fuad Rafi.jpeg" alt="Mubtasim Fuad Rafi">
+                            </div>
+                            <div class="developer-info">
+                                <h4 class="developer-name">Mubtasim Fuad Rafi</h4>
+                                <p class="developer-role">Researcher</p>
+                                <div class="developer-contacts">
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mf.rafi.24082003@gmail.com" class="contact-icon" aria-label="Email Nadia" target="_blank" rel="noopener" onclick="event.stopPropagation();">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    <a href="https://wa.me/8801774402989" target="_blank" rel="noopener" class="contact-icon" aria-label="WhatsApp Nadia">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                    <a href="https://linkedin.com/in/nadia-rahman" target="_blank" rel="noopener" class="contact-icon" aria-label="Nadia's LinkedIn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-overlay" id="login-modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Admin Login</h3>
+                <button class="modal-close" id="login-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="login-email" required placeholder="you@domain.com" title="Admin email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" required placeholder="Password" title="Admin password">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-full-width" id="login-submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Modal -->
+    <div class="modal" id="contact-modal">
+        <div class="modal-overlay" id="contact-modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Contact Us</h3>
+                <button class="modal-close" id="contact-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">Name *</label>
+                        <input type="text" class="form-control" id="contact-name" required placeholder="Your full name" title="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="contact-email" required placeholder="you@domain.com" title="Your email address">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Subject *</label>
+                        <input type="text" class="form-control" id="contact-subject" required placeholder="Subject" title="Message subject">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message *</label>
+                        <textarea class="form-control" id="contact-message" rows="4" required placeholder="Write your message here" title="Your message"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="contact-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="contact-submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-confirm-modal" aria-hidden="true">
+        <div class="modal-overlay" id="delete-confirm-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" id="delete-confirm-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this photo? This action cannot be undone.</p>
+                <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:1rem;">
+                    <button id="delete-cancel" class="btn btn-outline">Cancel</button>
+                    <button id="delete-confirm" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+        <!-- Upload Batch Photo Modal (simple/legacy) -->
+        <div id="uploadModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close" id="upload-modal-close">&times;</span>
+                <h2>Upload Batch Photo</h2>
+                <form id="batchForm">
+                    <label for="batchId" class="bold-label">Batch ID</label>
+                    <input type="text" id="batchId" required />
+
+                    <label for="batchName" class="bold-label">Batch Name</label>
+                    <input type="text" id="batchName" required />
+
+                    <label for="batchPhoto" class="bold-label">Batch Photo</label>
+                    <input type="file" id="batchPhoto" accept="image/*" required />
+
+                    <button type="submit" class="btn btn-success">Save</button>
+                </form>
+            </div>
+        </div>
+
+    <!-- Alumni List Modal -->
+    <div class="modal" id="alumni-modal">
+        <div class="modal-overlay" id="alumni-modal-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title">Our Alumni</h3>
+                <button class="modal-close" id="alumni-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alumni-actions" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <div>
+                        <strong>Famous & Successful Alumni</strong>
+                        <p class="form-help">Click a card to view contact options. Admins can edit entries.</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline" id="add-alumni-btn" style="display:none;">Add Alumni</button>
+                    </div>
+                </div>
+
+                <div id="alumni-grid" class="achievements-grid">
+                    <!-- Alumni cards will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alumni Add/Edit Modal -->
+    <div class="modal" id="alumni-form-modal">
+        <div class="modal-overlay" id="alumni-form-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title" id="alumni-form-title">Add Alumni</h3>
+                <button class="modal-close" id="alumni-form-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="alumni-form">
+                    <input type="hidden" id="alumni-id">
+                    <div class="form-group">
+                        <label class="form-label">Name *</label>
+                        <input type="text" class="form-control" id="alumni-name" required placeholder="Full name" title="Alumni name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Details *</label>
+                        <textarea class="form-control" id="alumni-details" rows="4" required placeholder="Details about the alumni (position, achievements)" title="Alumni details"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp Number</label>
+                        <input type="tel" class="form-control" id="alumni-whatsapp" placeholder="8801XXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn URL</label>
+                        <input type="url" class="form-control" id="alumni-linkedin" placeholder="https://linkedin.com/in/username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="alumni-email" placeholder="name@domain.com" title="Alumni contact email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Photo (optional)</label>
+                        <input type="file" class="form-control" id="alumni-photo" accept="image/*" aria-label="Alumni photo" title="Upload a photo of the alumni (optional)">
+                        <progress id="alumni-photo-progress" max="100" value="0" style="display:none; width:100%; margin-top:0.5rem;"></progress>
+                        <div class="photo-preview" id="alumni-photo-preview" style="display:none;margin-top:0.5rem;"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="alumni-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="alumni-save">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Achievement Modal Removed - Reuse Add Achievement Modal -->
+
+    <!-- Achievement Modal -->
+    <div class="modal" id="achievement-modal">
+        <div class="modal-overlay" id="achievement-modal-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title" id="achievement-modal-title">Add Achievement</h3>
+                <button class="modal-close" id="achievement-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="achievement-form">
+                    <div class="form-group">
+                        <label class="form-label">Type *</label>
+                        <select class="form-control" id="achievement-type" required title="Select achievement type">
+                            <option value="">Select Type</option>
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="collaborative">Collaborative</option>
+                        </select>
+                        <small class="form-help">💡 This determines which Firestore collection your data will be saved to</small>
+                    </div>
+                    
+                    <!-- Category Selection (for students only) -->
+                    <div class="form-group" id="category-selection" style="display: none;">
+                        <label class="form-label">Category *</label>
+                        <select class="form-control" id="achievement-category">
+                            <option value="">Select Category</option>
+                            <option value="Academic">Academic Excellence</option>
+                            <option value="Arts">Arts &amp; Culture</option>
+                            <option value="Sports">Sports &amp; Athletics</option>
+                            <option value="Technology">Technology &amp; Innovation</option>
+                            <option value="Leadership">Leadership &amp; Service</option>
+                        </select>
+                        <small class="form-help">📝 Required for student achievements - helps organize and filter data</small>
+                    </div>
+                    
+                    <!-- Achievement Title -->
+                    <div class="form-group" id="title-section">
+                        <label class="form-label">Achievement Title *</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="achievementTitle" 
+                               required 
+                               maxlength="100"
+                               minlength="3"
+                               placeholder="Enter a short title for this achievement">
+                        <small class="form-help" id="title-help">🏆 This will be the main heading displayed on the achievement card</small>
+                        <div class="character-counter" id="title-counter">
+                            <span id="title-char-count">0</span> / 100 characters
+                        </div>
+                        <div class="validation-message" id="title-error" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Achievement Details *</label>
+                        <textarea class="form-control" 
+                                  id="achievement-details" 
+                                  rows="4" 
+                                  required 
+                                  placeholder="Describe the achievement in detail"></textarea>
+                        <small class="form-help">📋 This will be saved as 'achievementDetails' in your Firestore document</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Photo (Optional)</label>
+                        <input type="file" 
+                               class="form-control" 
+                               id="achievement-photo" 
+                               accept="image/*">
+                        <small class="form-help">📸 Images are converted to Base64 and stored directly in Firestore</small>
+                        <div class="photo-preview" id="photo-preview" style="display: none;">
+                            <img id="preview-image" src="" alt="Preview">
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamic Fields Container -->
+                    <div id="dynamic-fields" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Entries *</label>
+                            <small class="form-help">Add one or more entries for this achievement</small>
+                        </div>
+                        
+                        <!-- Student Fields Container -->
+                        <div id="studentFields" class="fields-container" style="display: none;">
+                            <div class="entries-container" id="student-entries">
+                                <!-- Student entry groups will be added here dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-outline" id="add-student-btn">
+                                <span class="btn-icon">+</span> Add Student
+                            </button>
+                        </div>
+                        
+                        <!-- Teacher Fields Container -->
+                        <div id="teacherFields" class="fields-container" style="display: none;">
+                            <div class="entries-container" id="teacher-entries">
+                                <!-- Teacher entry groups will be added here dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-outline" id="add-teacher-btn">
+                                <span class="btn-icon">+</span> Add Teacher
+                            </button>
+                        </div>
+                        
+                        <!-- Collaborative Fields Container -->
+                        <div id="collaborativeFields" class="fields-container" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">Collaborative ID *</label>
+                                <input type="text" class="form-control" id="collaborative-id" placeholder="e.g., COLLAB-2024-001">
+                                <small class="form-help">Unique identifier for this collaborative achievement</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Project/Achievement Name *</label>
+                                <input type="text" class="form-control" id="collaborative-name" placeholder="Name of the collaborative project">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description *</label>
+                                <textarea class="form-control" id="collaborative-description" rows="3" placeholder="Detailed description of the collaborative effort"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="achievement-cancel">
+                            <span class="btn-icon">✕</span> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="achievement-submit">
+                            <span class="btn-icon">🔥</span> Save to Firestore
+                        </button>
+                    </div>
+                    
+                    <!-- Firebase Project Info -->
+                    <div class="form-help" style="text-align: center; margin-top: 1rem; opacity: 0.7;">
+                        💾 Saving to Firebase project: <strong>cse-portfolio-38403</strong>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+    
+    <!-- Edit Loading Overlay Template -->
+    <div id="edit-loading-template" style="display: none;">
+        <div class="edit-loading-overlay">
+            <div class="edit-loading-spinner"></div>
+        </div>
+    </div>
+    
+    <!-- Success Animation Template -->
+    <div id="success-animation-template" style="display: none;">
+        <div class="edit-success-animation">
+            ✓
+        </div>
+    </div>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- Firebase Scripts -->
+    <script type="module" src="app.js"></script>
+    
+    <!-- ========================================
+         BATCH PHOTO UPLOAD/EDIT MODAL
+         ======================================== -->
+
+    <div id="batch-modal" class="modal">
+        <div id="batch-modal-overlay" class="modal-overlay"></div>
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h3 id="batch-modal-title" class="modal-title">Upload Batch Photo</h3>
+                <button id="batch-modal-close" 
+                        class="modal-close" 
+                        aria-label="Close modal">
+                    ×
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="batch-form" class="batch-form">
+                    <!-- Batch Number -->
+                    <div class="form-group">
+                        <label for="batch-number" class="form-label">
+                            Batch Number <span class="required">*</span>
+                        </label>
+                        <input type="text" 
+                               id="batch-number" 
+                               name="batchNumber" 
+                               class="form-input" 
+                               placeholder="e.g., 01, 02, 03..."
+                               required>
+                    </div>
+                    
+                    <!-- Batch Name -->
+                    <div class="form-group">
+                        <label for="batch-name" class="form-label">
+                            Batch Name <span class="required">*</span>
+                        </label>
+                        <input type="text" 
+                               id="batch-name" 
+                               name="batchName" 
+                               class="form-input" 
+                               placeholder="e.g., Pioneers, Innovators..."
+                               required>
+                    </div>
+                    
+                    <!-- Photo Upload -->
+                    <div class="form-group">
+                        <label for="batch-photo-input" class="form-label">
+                            Batch Photo <span class="required">*</span>
+                        </label>
+                        <input type="file" 
+                               id="batch-photo-input" 
+                               name="batchPhoto" 
+                               class="form-input" 
+                               accept="image/*">
+                        <progress id="batch-photo-progress" max="100" value="0" style="display:none; width:100%; margin-top:0.5rem;"></progress>
+                        <div id="batch-photo-status" class="form-help" style="display:none; margin-top:0.25rem;"></div>
+                        <small class="form-help">
+                            Recommended: High-quality JPEG or PNG image
+                        </small>
+                    </div>
+                    
+                    <!-- Photo Preview -->
+                    <div id="batch-photo-preview" 
+                         class="batch-photo-preview" 
+                         style="display: none; margin-top: 1rem;">
+                        <span style="color: #999;">Photo preview will appear here</span>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="form-actions" style="margin-top: 2rem;">
+                        <button type="button" 
+                                id="batch-cancel" 
+                                class="btn btn--outline">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="btn btn--primary">
+                            💾 Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
